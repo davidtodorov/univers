@@ -3,23 +3,23 @@
     <AppNavigation></AppNavigation>
     <AppHeader></AppHeader>
     <v-content>
-      <HelloWorld />
     </v-content>
+    <AppFooter></AppFooter>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
 import AppNavigation from "./components/core/Navigation";
 import AppHeader from "./components/core/Header";
+import AppFooter from "./components/core/Footer";
 
 export default {
   name: "App",
 
   components: {
-    HelloWorld,
     AppNavigation,
-    AppHeader
+    AppHeader,
+    AppFooter
   },
 
   data: () => ({
