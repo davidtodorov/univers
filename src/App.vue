@@ -3,8 +3,7 @@
     <AppNavigation></AppNavigation>
     <AppHeader></AppHeader>
     <v-content>
-      <!-- <AppLogin></AppLogin> -->
-      <AppRegister></AppRegister>
+      <router-view></router-view>
     </v-content>
     <AppFooter></AppFooter>
   </v-app>
@@ -14,8 +13,6 @@
 import AppNavigation from "./components/core/Navigation";
 import AppHeader from "./components/core/Header";
 import AppFooter from "./components/core/Footer";
-// import AppLogin from "./components/authentication/Login"
-import AppRegister from "./components/authentication/Register"
 
 export default {
   name: "App",
@@ -24,8 +21,6 @@ export default {
     AppNavigation,
     AppHeader,
     AppFooter,
-    // AppLogin,
-    AppRegister
   },
 
   data: () => ({
