@@ -122,13 +122,14 @@ export default {
 			firebase
 				.auth()
 				.createUserWithEmailAndPassword(this.email, this.password)
-				.then(user => {
-					if (user) {
-						user.updateProfile({
-							
-						})
+				.then(registeredUser => {
+					if (registeredUser) {
+						firebase.firestore().collection("users").add({
+							uid: registeredUser.user.uid,
+							username: this.username,
+						});
 					}
-					console.log(user)
+					console.log(registeredUser);
 				})
 				.catch(function(error) {
 					console.log(error);
