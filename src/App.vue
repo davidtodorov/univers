@@ -1,12 +1,12 @@
 <template>
-  <v-app>
-    <AppNavigation></AppNavigation>
-    <AppHeader></AppHeader>
-    <v-content>
-      <router-view></router-view>
-    </v-content>
-    <AppFooter></AppFooter>
-  </v-app>
+	<v-app>
+		<AppNavigation></AppNavigation>
+		<AppHeader></AppHeader>
+		<v-content>
+			<router-view></router-view>
+		</v-content>
+		<AppFooter></AppFooter>
+	</v-app>
 </template>
 
 <script>
@@ -15,27 +15,27 @@ import AppHeader from "./components/core/Header";
 import AppFooter from "./components/core/Footer";
 
 export default {
-  name: "App",
+	name: "App",
 
-  components: {
-    AppNavigation,
-    AppHeader,
-    AppFooter,
-  },
+	components: {
+		AppNavigation,
+		AppHeader,
+		AppFooter
+	},
 
-  data: () => ({
-    //
-  })
+	data: () => ({
+		//
+	})
 };
 </script>
 
 <style>
 @font-face {
-  font-family: "Roboto Light";
-  src: url("./assets/fonts/Roboto-Light.ttf") format("woff2");
+	font-family: "Roboto Light";
+	src: url("./assets/fonts/Roboto-Light.ttf") format("woff2");
 }
 
 * {
-  font-family: "Roboto Light";
+	font-family: "Roboto Light";
 }
 </style>

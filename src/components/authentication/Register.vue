@@ -1,120 +1,139 @@
 <template>
-  <AppAuthenticationForm title="Register">
-    <v-form>
-      <v-text-field
-        label="Eamil"
-        name="email"
-        type="text"
-        color="#232323"
-        v-model="email"
-        @blur="$v.email.$touch"
-        :error-messages="emailErrors"
-      />
+	<AppAuthenticationForm title="Register" :submitHandler="submitRegister">
+		<v-form>
+			<v-text-field
+				label="Eamil"
+				name="email"
+				type="text"
+				color="#232323"
+				v-model="email"
+				@blur="$v.email.$touch"
+				:error-messages="emailErrors"
+			/>
 
-      <v-text-field
-        label="Username"
-        name="username"
-        type="text"
-        color="#232323"
-        v-model="username"
-        @blur="$v.username.$touch"
-        :error-messages="usernameErrors"
-      />
+			<v-text-field
+				label="Username"
+				name="username"
+				type="text"
+				color="#232323"
+				v-model="username"
+				@blur="$v.username.$touch"
+				:error-messages="usernameErrors"
+			/>
 
-      <v-text-field
-        id="password"
-        label="Password"
-        name="password"
-        type="password"
-        color="#232323"
-        v-model="password"
-        @blur="$v.password.$touch"
-        :error-messages="passwordErrors"
-      />
+			<v-text-field
+				id="password"
+				label="Password"
+				name="password"
+				type="password"
+				color="#232323"
+				v-model="password"
+				@blur="$v.password.$touch"
+				:error-messages="passwordErrors"
+			/>
 
-      <v-text-field
-        id="confirmPassword"
-        label="Confirm Password"
-        name="password"
-        type="password"
-        color="#232323"
-        v-model="confirmPassword"
-        @blur="$v.confirmPassword.$touch"
-        :error-messages="confirmPasswordErrors"
-      />
-    </v-form>
-  </AppAuthenticationForm>
+			<v-text-field
+				id="confirmPassword"
+				label="Confirm Password"
+				name="password"
+				type="password"
+				color="#232323"
+				v-model="confirmPassword"
+				@blur="$v.confirmPassword.$touch"
+				:error-messages="confirmPasswordErrors"
+			/>
+		</v-form>
+	</AppAuthenticationForm>
 </template>
 
 <script>
 import AppAuthenticationForm from "./AuthenticationForm";
 import { validationMixin } from "vuelidate";
 import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
+import firebase from "firebase";
 
 export default {
-  components: {
-    AppAuthenticationForm
-  },
-  mixins: [validationMixin],
-  props: {
-    source: String
-  },
-  data: () => {
-    return {
-      email: "",
-      username: "",
-      password: "",
-      confirmPassword: ""
-    };
-  },
-  validations: {
-    email: {
-      required,
-      email
-    },
-    username: {
-      required,
-      minLength: minLength(5)
-    },
-    password: {
-      required,
-      minLength: minLength(6)
-    },
-    confirmPassword: {
-      sameAs: sameAs("password")
-    }
-  },
-  computed: {
-    emailErrors() {
-      const errors = [];
-      if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Must be valid e-mail");
-      !this.$v.email.required && errors.push("E-mail is required");
-      return errors;
-    },
-    usernameErrors() {
-      const errors = [];
-      if (!this.$v.username.$dirty) return errors;
-      !this.$v.username.required && errors.push("Username is required");
-      !this.$v.username.minLength && errors.push("The minimal length must be 5 symbols");
-      return errors;
-    },
-    passwordErrors() {
-      const errors = [];
-      if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.minLength && errors.push("The minimal length must be 6 symbols");
-      !this.$v.password.required && errors.push("Password is required");
-      return errors;
-    },
-    confirmPasswordErrors() {
-      const errors = [];
-      if (!this.$v.confirmPassword.$dirty) return errors;
-      !this.$v.confirmPassword.sameAs && errors.push("The passwords should match");
-      return errors;
-    }
-  },
-  methods: {
-    submitHandler() {}
-  }
+	components: {
+		AppAuthenticationForm
+	},
+	mixins: [validationMixin],
+	props: {
+		source: String
+	},
+	data: () => {
+		return {
+			email: "",
+			username: "",
+			password: "",
+			confirmPassword: ""
+		};
+	},
+	validations: {
+		email: {
+			required,
+			email
+		},
+		username: {
+			required,
+			minLength: minLength(5)
+		},
+		password: {
+			required,
+			minLength: minLength(6)
+		},
+		confirmPassword: {
+			sameAs: sameAs("password")
+		}
+	},
+	computed: {
+		emailErrors() {
+			const errors = [];
+			if (!this.$v.email.$dirty) return errors;
+			!this.$v.email.email && errors.push("Must be valid e-mail");
+			!this.$v.email.required && errors.push("E-mail is required");
+			return errors;
+		},
+		usernameErrors() {
+			const errors = [];
+			if (!this.$v.username.$dirty) return errors;
+			!this.$v.username.required && errors.push("Username is required");
+			!this.$v.username.minLength &&
+				errors.push("The minimal length must be 5 symbols");
+			return errors;
+		},
+		passwordErrors() {
+			const errors = [];
+			if (!this.$v.password.$dirty) return errors;
+			!this.$v.password.minLength &&
+				errors.push("The minimal length must be 6 symbols");
+			!this.$v.password.required && errors.push("Password is required");
+			return errors;
+		},
+		confirmPasswordErrors() {
+			const errors = [];
+			if (!this.$v.confirmPassword.$dirty) return errors;
+			!this.$v.confirmPassword.sameAs &&
+				errors.push("The passwords should match");
+			return errors;
+		}
+	},
+	methods: {
+		submitRegister() {
+			firebase
+				.auth()
+				.createUserWithEmailAndPassword(this.email, this.password)
+				.then(user => {
+					if (user) {
+						user.updateProfile({
+							
+						})
+					}
+					console.log(user)
+				})
+				.catch(function(error) {
+					console.log(error);
+				});
+		}
+	}
 };
 </script>
