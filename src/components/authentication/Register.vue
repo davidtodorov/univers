@@ -50,7 +50,7 @@
 import AppAuthenticationForm from "./AuthenticationForm";
 import { validationMixin } from "vuelidate";
 import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
-import firebase from "firebase";
+import axios from '@/axios';
 
 export default {
 	components: {
@@ -119,20 +119,14 @@ export default {
 	},
 	methods: {
 		submitRegister() {
-			firebase
-				.auth()
-				.createUserWithEmailAndPassword(this.email, this.password)
-				.then(user => {
-					if (user) {
-						user.updateProfile({
-							
-						})
-					}
-					console.log(user)
-				})
-				.catch(function(error) {
-					console.log(error);
-				});
+
+
+			axios.post('/user/register', {
+				email: this.email,
+				password: this.password
+			}).then(res => {
+				console.log(res);
+			});
 		}
 	}
 };
