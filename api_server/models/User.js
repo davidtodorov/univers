@@ -13,17 +13,14 @@ const userSchema = new Schema({
         unique: true,
         required: true
     },
-
-    password: {
+    username: {
         type: String,
         require: true
     },
-
-    editingHistory: [{
-        type: ObjectId,
-        ref: "Tutorial"
-    }]
-
+    password: {
+        type: String,
+        require: true
+    }
 });
 
 userSchema.methods = {

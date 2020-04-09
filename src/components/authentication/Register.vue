@@ -75,7 +75,7 @@ export default {
 		},
 		username: {
 			required,
-			minLength: minLength(5)
+			minLength: minLength(4)
 		},
 		password: {
 			required,
@@ -98,7 +98,7 @@ export default {
 			if (!this.$v.username.$dirty) return errors;
 			!this.$v.username.required && errors.push("Username is required");
 			!this.$v.username.minLength &&
-				errors.push("The minimal length must be 5 symbols");
+				errors.push("The minimal length must be 4 symbols");
 			return errors;
 		},
 		passwordErrors() {
@@ -119,13 +119,12 @@ export default {
 	},
 	methods: {
 		submitRegister() {
-
-
 			axios.post('/user/register', {
 				email: this.email,
+				username: this.username,
 				password: this.password
-			}).then(res => {
-				console.log(res);
+			}).then(() => {
+				this.$router.push({name: 'Home'})
 			});
 		}
 	}
