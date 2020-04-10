@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer app overflow color="#232323">
+    <v-navigation-drawer app overflow color="#232323" >
       <img alt="Vue logo" src="../.././../public/unvrsLogo.svg" />
 
       <v-btn tile block color="#4fc3ff" class="white--text" to="/login">Login</v-btn>

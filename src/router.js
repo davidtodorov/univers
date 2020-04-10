@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Home from '@/components/Home'
 import Login from '@/components/authentication/Login'
 import Register from '@/components/authentication/Register'
+import ProductList from '@/components/products/ProductList'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,11 @@ const router = new VueRouter({
             path: '/register',
             name: 'Register',
             component: Register,
+        },
+        {
+            path: '/products',
+            name: 'ProductList',
+            component: ProductList,
         }
         // {
         //     path: '/settings',

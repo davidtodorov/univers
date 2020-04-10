@@ -1,51 +1,5 @@
 <template>
-	<div class="container">
-		<v-dialog v-model="showDialog" max-width="500px">
-			<template v-slot:activator="{ on }">
-				<v-row>
-					<v-col>
-						<div id="newProduct">
-							<v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
-						</div>
-					</v-col>
-					<v-spacer></v-spacer>
-					<v-col>
-						<v-text-field
-							v-model="search"
-							label="Search"
-							single-line
-							hide-details
-							append-icon="fas fa-search"
-						></v-text-field>
-					</v-col>
-				</v-row>
-			</template>
-			<v-card>
-				<v-card-title>
-					<span class="headline">New Product</span>
-				</v-card-title>
-
-				<v-card-text>
-						<v-row cols="12" sm="6" md="6">
-							<v-col cols="12" sm="6" md="6">
-								<v-text-field label="Name"></v-text-field>
-							</v-col>
-							<v-col cols="12" sm="6" md="6">
-								<v-text-field label="Description"></v-text-field>
-							</v-col>
-						</v-row>
-				</v-card-text>
-
-				<v-card-actions>
-					<v-spacer></v-spacer>
-					<v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-					<v-btn color="blue darken-1" text >Save</v-btn>
-				</v-card-actions>
-			</v-card>
-		</v-dialog>
-
-		<v-data-table :headers="headers" :items="desserts" :items-per-page="5" class="elevation-1"></v-data-table>
-	</div>
+	<dvi></dvi>
 </template>
 
 <script>
@@ -147,15 +101,15 @@ export default {
 					iron: "6%"
 				}
 			],
-      search: "",
-      showDialog: false
+			search: "",
+			showDialog: false
 		};
-  },
-  methods: {
-    close(){
-      this.showDialog = false; 
-    }
-  }
+	},
+	methods: {
+		close() {
+			this.showDialog = false;
+		}
+	}
 };
 </script>
 

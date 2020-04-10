@@ -9,7 +9,7 @@
 				name="password"
 				type="password"
 				color="#232323"
-				v-model="passdword"
+				v-model="password"
 			/>
 		</v-form>
 	</AppAuthenticationForm>
