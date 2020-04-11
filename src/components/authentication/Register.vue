@@ -50,7 +50,7 @@
 import AppAuthenticationForm from "./AuthenticationForm";
 import { validationMixin } from "vuelidate";
 import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
-import axios from '@/axios';
+import axios from "@/axios";
 
 export default {
 	components: {
@@ -124,7 +124,9 @@ export default {
 				username: this.username,
 				password: this.password
 			}).then(() => {
-				this.$router.push({name: 'Home'})
+				this.$router.push({name: 'ProductList'});
+			}).catch(err => {
+				console.log(err.response.data)
 			});
 		}
 	}

@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 const models = require('../models');
 const config = require('../config/config');
 const utils = require('../utils');
@@ -15,13 +16,17 @@ module.exports = {
 
       models.User.create({ email, username, password })
         .then((createdUser) => res.send(createdUser))
-        .catch(next)
+        .catch((err => {
+          return res.status(500).send("The email is already registered!");
+        }))
     },
 
     login: (req, res, next) => {
       const { email, password } = req.body;
       models.User.findOne({ email })
-        .then((user) => !!user ? Promise.all([user, user.matchPassword(password)]) : [null, false])
+        .then(user => {
+          return !!user ? Promise.all([user, user.matchPassword(password)]) : [null, false]
+        })
         .then(([user, match]) => {
           if (!match) {
             res.status(401).send('Invalid username or password');

@@ -11,5 +11,6 @@ instance.interceptors.request.use((config) => {
     return config;
 });
 
+instance.defaults.withCredentials = true;
 
 export default instance;

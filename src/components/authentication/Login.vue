@@ -18,7 +18,7 @@
 <script>
 import AppAuthenticationForm from "./AuthenticationForm";
 
-import firebase from "@/firebase.js";
+import axios from '@/axios'
 
 export default {
 	components: {
@@ -32,16 +32,15 @@ export default {
 	},
 	methods: {
 		submitLogin() {
-			firebase.auth
-				.signInWithEmailAndPassword(this.email, this.password)
-				.then(user => {
-					this.$store.commit("setCurrentUser", user);
-					this.$store.dispatch("fetchUserProfile");
-					this.$router.push("/dashboard");
-				})
-				.catch(err => {
-					console.log(err);
-				});
+			axios.post("/user/login", {
+				email: this.email,
+				password: this.password
+			}).then((res) => {
+				console.log(res)
+				this.$router.push({name: 'ProductList'});
+			}).catch(err => {
+				console.log(err.response.data);
+			})
 		}
 	},
 	props: {
