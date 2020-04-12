@@ -16,11 +16,13 @@
 		</v-container>
 		<AppNewProduct></AppNewProduct>
 		<v-data-table :headers="headers" :items="desserts" :items-per-page="5" class="elevation-1"></v-data-table>
+		<div>{{currentUser}}</div>
 	</div>
 </template>
 
 <script>
-import AppNewProduct from '@/components/products/NewProduct'
+import AppNewProduct from "@/components/products/NewProduct";
+import { userHelpers } from "@/store"
 
 export default {
 	components: {
@@ -127,8 +129,12 @@ export default {
 			showDialog: false
 		};
 	},
-	methods: {
-	}
+	computed: {
+		...userHelpers.mapGetters([
+			'currentUser'
+		])
+	},
+	methods: {}
 };
 </script>
 

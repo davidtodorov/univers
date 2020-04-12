@@ -1,5 +1,5 @@
 <template>
-	<AppAuthenticationForm title="Login" :submitHandler="submitLogin">
+	<AppAuthenticationForm title="Login" :submitHandler="submitLogin" :allFieldsAreValid=true>
 		<v-form>
 			<v-text-field label="Email" name="email" type="text" color="#232323" v-model="email" />
 
@@ -11,14 +11,13 @@
 				color="#232323"
 				v-model="password"
 			/>
+			<v-alert v-if="errorMessage" icon="far fa-user" color="red" text outlined>{{errorMessage}}</v-alert>
 		</v-form>
 	</AppAuthenticationForm>
 </template>
 
 <script>
 import AppAuthenticationForm from "./AuthenticationForm";
-
-import axios from '@/axios'
 
 export default {
 	components: {
@@ -27,20 +26,24 @@ export default {
 	data: () => {
 		return {
 			email: "",
-			password: ""
+			password: "",
+			errorMessage: ""
 		};
 	},
 	methods: {
 		submitLogin() {
-			axios.post("/user/login", {
-				email: this.email,
-				password: this.password
-			}).then((res) => {
-				console.log(res)
-				this.$router.push({name: 'ProductList'});
-			}).catch(err => {
-				console.log(err.response.data);
-			})
+			this.$store
+				.dispatch("user/login", {
+					email: this.email,
+					password: this.password
+				})
+				.then(res => {
+					console.log(res);
+					this.$router.push({ name: "ProductList" });
+				})
+				.catch(err => {
+					this.errorMessage = err.response.data;
+				});
 		}
 	},
 	props: {

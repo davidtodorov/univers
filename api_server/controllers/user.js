@@ -15,7 +15,11 @@ module.exports = {
       const { email, username, password } = req.body;
 
       models.User.create({ email, username, password })
-        .then((createdUser) => res.send(createdUser))
+        .then((createdUser) => {
+          let user = JSON.parse(JSON.stringify(createdUser));
+          delete user.password;
+          return res.send(user);
+        })
         .catch((err => {
           return res.status(500).send("The email is already registered!");
         }))
@@ -27,13 +31,17 @@ module.exports = {
         .then(user => {
           return !!user ? Promise.all([user, user.matchPassword(password)]) : [null, false]
         })
-        .then(([user, match]) => {
+        .then(([foundUser, match]) => {
           if (!match) {
-            res.status(401).send('Invalid username or password');
+            res.status(401).send('Invalid username or password!');
             return;
           }
 
-          const token = utils.jwt.createToken({ id: user._id });
+          const token = utils.jwt.createToken({ id: foundUser._id });
+
+          let user = JSON.parse(JSON.stringify(foundUser));
+          delete user.password;
+          
           res.cookie(config.authCookieName, token).send(user);
         })
         .catch(next);

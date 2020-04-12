@@ -1,5 +1,9 @@
 <template>
-	<AppAuthenticationForm title="Register" :submitHandler="submitRegister">
+	<AppAuthenticationForm
+		title="Register"
+		:submitHandler="submitRegister"
+		:allFieldsAreValid="fieldsAreValid"
+	>
 		<v-form>
 			<v-text-field
 				label="Eamil"
@@ -39,9 +43,11 @@
 				type="password"
 				color="#232323"
 				v-model="confirmPassword"
-				@blur="$v.confirmPassword.$touch"
+				@input="$v.confirmPassword.$touch"
 				:error-messages="confirmPasswordErrors"
 			/>
+
+			<v-alert v-if="errorMessage" icon="far fa-user" color="red" text outlined>{{errorMessage}}</v-alert>
 		</v-form>
 	</AppAuthenticationForm>
 </template>
@@ -50,7 +56,6 @@
 import AppAuthenticationForm from "./AuthenticationForm";
 import { validationMixin } from "vuelidate";
 import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
-import axios from "@/axios";
 
 export default {
 	components: {
@@ -65,7 +70,8 @@ export default {
 			email: "",
 			username: "",
 			password: "",
-			confirmPassword: ""
+			confirmPassword: "",
+			errorMessage: ""
 		};
 	},
 	validations: {
@@ -86,6 +92,15 @@ export default {
 		}
 	},
 	computed: {
+		fieldsAreValid() {
+			return (
+				!this.$v.$anyError &&
+				!!this.email &&
+				!!this.username &&
+				!!this.password &&
+				!!this.confirmPassword
+			);
+		},
 		emailErrors() {
 			const errors = [];
 			if (!this.$v.email.$dirty) return errors;
@@ -119,15 +134,19 @@ export default {
 	},
 	methods: {
 		submitRegister() {
-			axios.post('/user/register', {
-				email: this.email,
-				username: this.username,
-				password: this.password
-			}).then(() => {
-				this.$router.push({name: 'ProductList'});
-			}).catch(err => {
-				console.log(err.response.data)
-			});
+			this.$store
+				.dispatch("user/register", {
+					email: this.email,
+					username: this.username,
+					password: this.password
+				})
+				.then(res => {
+					console.log(res);
+					this.$router.push({ name: "ProductList" });
+				})
+				.catch(err => {
+					this.errorMessage = err.response.data;
+				});
 		}
 	}
 };
