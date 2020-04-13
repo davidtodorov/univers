@@ -1,12 +1,12 @@
 <template>
-	<v-app>
-		<AppNavigation></AppNavigation>
-		<AppHeader></AppHeader>
-		<v-content>
-			<router-view></router-view>
-		</v-content>
-		<AppFooter></AppFooter>
-	</v-app>
+		<v-app v-if="!isLoading">
+			<AppNavigation></AppNavigation>
+			<AppHeader></AppHeader>
+			<v-content>
+				<router-view></router-view>
+			</v-content>
+			<AppFooter></AppFooter>
+		</v-app>
 </template>
 
 <script>
@@ -14,9 +14,23 @@ import AppNavigation from "./components/core/Navigation";
 import AppHeader from "./components/core/Header";
 import AppFooter from "./components/core/Footer";
 
+import Cookies from 'js-cookie'
+
 export default {
 	name: "App",
-
+	created(){
+		if(Cookies.get('x-auth-token')){
+			this.$store.dispatch("user/getCurrentUser")
+			.then(() => {
+				this.isLoading = false;
+			})
+			.catch(() => {
+				this.$router.push({ name: "Login" });
+			})
+		} else {
+			this.isLoading = false;
+		}
+	},
 	components: {
 		AppNavigation,
 		AppHeader,
@@ -24,7 +38,7 @@ export default {
 	},
 
 	data: () => ({
-		//
+		isLoading: true
 	})
 };
 </script>

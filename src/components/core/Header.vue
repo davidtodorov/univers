@@ -5,7 +5,7 @@
       <template v-slot:activator="{ on }">
         <v-btn tile depressed v-on="on">
           <v-icon>far fa-user</v-icon>
-          <div id="username">Username</div>
+          <div id="user">{{user}}</div>
         </v-btn>
       </template>
       <v-list>
@@ -22,12 +22,20 @@
 
 <script>
 export default {
-  name: "AppHeader"
+  name: "AppHeader",
+  data() {
+    return {
+      user: this.$store.state.user.currentUser.email
+    }
+  },
+  mounted() {
+    console.log("mounted")
+  }
 };
 </script>
 
 <style>
-#username {
+#user {
   margin-left: 10px;
 }
 </style>

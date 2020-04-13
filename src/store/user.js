@@ -16,7 +16,7 @@ const user = {
         }
     },
     actions: {
-        register({ commit }, { email, username, password}) {
+        register({ commit }, { email, username, password }) {
             return axios.post('/user/register', {
                 email,
                 username,
@@ -39,6 +39,15 @@ const user = {
             }).catch(err => {
                 return Promise.reject(err)
             })
+        },
+        getCurrentUser({ commit }) {
+            return axios.get("/auth").then(res => {
+                console.log(res);
+                commit('setCurrentUser', res.data);
+                return Promise.resolve();
+            }).catch(err => {
+                return Promise.reject(err)
+            });
         }
     }
 }
