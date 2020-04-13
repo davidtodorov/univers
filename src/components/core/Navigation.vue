@@ -14,8 +14,8 @@
 				<v-btn tile block color="#4fc3ff" class="white--text">Integration notes</v-btn>
 				<v-btn tile block color="#4fc3ff" class="white--text">Deployment notes</v-btn>
 				<v-btn tile block color="#4fc3ff" class="white--text">Release notes</v-btn>
-        <v-divider></v-divider>
-				<v-btn tile block color="#4fc3ff" class="white--text" to="/logout">Logout</v-btn>
+				<v-divider></v-divider>
+				<v-btn tile block color="#4fc3ff" class="white--text" @click="onLogout">Logout</v-btn>
 			</template>
 		</v-navigation-drawer>
 	</div>
@@ -25,9 +25,22 @@
 export default {
 	name: "AppNavigation",
 	data() {
-    return {
-      isLogged: !!this.$store.state.user.currentUser
+		return {
+		};
+  },
+  computed: {
+    isLogged() {
+			return this.$store.getters["user/currentUser"]
     }
   },
+	methods: {
+		onLogout() {
+			this.$store.dispatch("user/logout").then(() => {
+				this.$router.push({ name: "Login" });
+			}).catch(err => {
+        console.log(err);
+      });
+		}
+	}
 };
 </script>

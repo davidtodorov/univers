@@ -1,5 +1,5 @@
 <template>
-	<AppAuthenticationForm title="Login" :submitHandler="submitLogin" :allFieldsAreValid=true>
+	<AppAuthenticationForm title="Login" :submitHandler="submitLogin" :allFieldsAreValid="true">
 		<v-form>
 			<v-text-field label="Email" name="email" type="text" color="#232323" v-model="email" />
 
