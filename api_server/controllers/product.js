@@ -3,9 +3,11 @@ const models = require('../models');
 module.exports = {
   get: (req, res, next) => {
 
-    // const technology = req.query.technology;
-    // const { id } = req.params;
-
+    const { id } = req.params;
+    models.Product.find(id ? { _id: id } : {})
+      .then(products => {
+        res.send(products)
+      }).catch(next);
     // if (technology) {
     //   models.Tutorial.find({ technology }).populate('editor')
     //     .then((tutorials) => res.send(tutorials))
@@ -18,7 +20,16 @@ module.exports = {
   },
 
   post: (req, res, next) => {
-      console.log(req.params);
+    console.log(req.params);
+    const { name, description } = req.body;
+    const { _id } = req.user;
+
+    models.Product
+      .create({ name, description, creator: _id })
+      .then(createdProduct => {
+        res.send(createdProduct);
+      })
+      .catch(next);
     // const { technology, name, content } = req.body;
     // const { _id } = req.user;
 
@@ -37,7 +48,7 @@ module.exports = {
 
   put: (req, res, next) => {
     // const { technology, name, content } = req.body;
-    
+
     // const { _id } = req.user;
     // const { id } = req.params;
 

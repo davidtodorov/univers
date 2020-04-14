@@ -35,33 +35,37 @@
 </template>
 
 <script>
-
-import axios from '@/axios'
-
 export default {
 	name: "AppNewProduct",
 	data() {
 		return {
-			name: '',
-			description: '',
+			name: "",
+			description: "",
 			showDialog: false
 		};
 	},
 	methods: {
 		save() {
-			console.log(this)
-			axios.post('/products', {
-				name: this.name,
-				description: this.description
-			}).then(() => {
-				this.$router.push({name: 'ProductList'})
-			}).catch(err => {
-				console.log(err)
-			});
+			this.$store
+				.dispatch("product/addProduct", {
+					name: this.name,
+					description: this.description
+				})
+				.then(() => {
+					this.showDialog = false;
+					this.clearFields();
+				})
+				.catch((err) => {
+					console.log(err)
+				});
 		},
 		close() {
-			console.log(this)
 			this.showDialog = false;
+			this.clearFields();
+		},
+		clearFields() {
+			this.name = '',
+			this.description = ''
 		}
 	}
 };

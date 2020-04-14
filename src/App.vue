@@ -47,12 +47,31 @@ export default {
 </script>
 
 <style>
-@font-face {
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+/* @font-face {
 	font-family: "Roboto Light";
 	src: url("./assets/fonts/Roboto-Light.ttf") format("woff2");
-}
+} */
+
 
 * {
-	font-family: "Roboto Light";
+	font-family: 'Roboto';
+}
+
+tbody tr:nth-child(2n) {
+  background-color: #f2f2f2 !important;
+}
+
+thead tr {
+  background-color: #f2f2f2 !important;
+}
+
+thead tr * { 
+	font-size: 16px
+}
+
+thead th span {
+	font-weight: bold !important;
+	color:black !important;
 }
 </style>
