@@ -38,7 +38,11 @@ const product = {
         },
         removeProductBranch(state, id) {
             state.productBranches = state.productBranches.filter(p => p._id != id);
-        }
+        },
+        resetState(state) {
+            const initial = getDefaultState();
+            Object.keys(initial).forEach(key => { state[key] = initial[key] })
+        },
     },
     actions: {
         getAllBranches({ commit }) {
@@ -51,13 +55,17 @@ const product = {
                 })
         },
         getProductBranches({ commit }, { productId }) {
-            //maybe try with data: {} || /branches/
             return axios.get("/branches", {
                 params: {
                     productId
                 }
             }).then(res => {
                 commit('setProductBranches', res.data);
+                if(res.data.length > 0) {
+                    commit('setCurrentBranch', res.data[0]);
+                } else {
+                    commit('setCurrentBranch', null);
+                }
                 return Promise.resolve();
             }).catch(err => {
                 return Promise.reject(err)

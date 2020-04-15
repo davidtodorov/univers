@@ -1,6 +1,6 @@
 <template>
 	<v-row justify="center" v-if="!isLoading">
-		<v-expansion-panels accordion focusable multiple >
+		<v-expansion-panels accordion focusable multiple>
 			<DetailsAccordion></DetailsAccordion>
 			<BranchAccordion></BranchAccordion>
 		</v-expansion-panels>
@@ -19,23 +19,17 @@ export default {
 	},
 	created() {
 		Promise.all([
-			this.$store.dispatch("product/getProduct", { id: this.$route.params.id }),
-			this.$store.dispatch('branch/getProductBranches', {productId: this.$route.params.id})
-		]).then(() => {
-			this.isLoading = false
-		}).catch(err => console.log(err));
-
-
-		// if (!this.$store.getters("user/allUsers")) {
-		// 	this.$store
-		// 		.dispatch("user/getAllUsers")
-		// 		.then(() => {
-		// 			this.isLoading = false;
-		// 		})
-		// 		.catch(err => {
-		// 			console.log(err);
-		// 		});
-		// }
+			this.$store.dispatch("product/getProduct", {
+				id: this.$route.params.id
+			}),
+			this.$store.dispatch("branch/getProductBranches", {
+				productId: this.$route.params.id
+			})
+		])
+			.then(() => {
+				this.isLoading = false;
+			})
+			.catch(err => console.log(err));
 	},
 	data() {
 		return {
@@ -45,8 +39,7 @@ export default {
 		};
 	},
 	computed: {
-		...userHelpers.mapGetters(["allUsers"]),
-		
+		...userHelpers.mapGetters(["allUsers"])
 	},
 	methods: {}
 };

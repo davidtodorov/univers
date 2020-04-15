@@ -13,6 +13,14 @@ const store = new Vuex.Store({
         user: userModule,
         product: productModule,
         branch: branchMudle
+    },
+    actions: {
+        clearAll({ commit }) {
+            commit('user/resetState')
+            commit('product/resetState')
+            commit('branch/resetState')
+            return Promise.resolve();
+        }
     }
     // plugins: [createPersistedState()]
 })

@@ -59,6 +59,8 @@ const user = {
             return axios.post("user/logout")
                 .then(() => {
                     commit('resetState');
+                    commit('product/resetState', { root: true });
+                    commit('branch/resetState', { root: true });
                     return Promise.resolve();
                 }).catch(err => {
                     return Promise.reject(err);

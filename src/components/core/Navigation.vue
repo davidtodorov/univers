@@ -35,7 +35,7 @@ export default {
   },
 	methods: {
 		onLogout() {
-			this.$store.dispatch("user/logout").then(() => {
+			this.$store.dispatch("clearAll").then(() => {
 				this.$router.push({ name: "Login" });
 			}).catch(err => {
         console.log(err);

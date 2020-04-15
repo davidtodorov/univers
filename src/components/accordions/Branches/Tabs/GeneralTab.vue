@@ -15,7 +15,7 @@
 						<v-combobox v-model="selectedBranches" :items="branches" label="Version" multiple chips></v-combobox>
 					</v-col>
 					<v-col cols="6" sm="6" md="6">
-						<v-switch label="Can Release" color="primary" value="primary" hide-details></v-switch>
+						<v-switch v-model="canRelease" label="Can Release" color="primary" value="primary" hide-details></v-switch>
 					</v-col>
 				</v-row>
 			</v-card-text>
@@ -30,11 +30,32 @@ export default {
 	name: "GeneralTab",
 	data() {
 		return {
-            name: '',
-            description: '',
-            branches: [{ text: "smth", key: "smth" }],
-            selectedBranches: null
+			branches: [{ text: "smth", key: "smth" }],
+			selectedBranches: null
 		};
+	},
+	computed: {
+		name() {
+			return (
+				(this.$store.getters["branch/currentBranch"] &&
+					this.$store.getters["branch/currentBranch"].name) ||
+				""
+			);
+		},
+		description() {
+			return (
+				(this.$store.getters["branch/currentBranch"] &&
+					this.$store.getters["branch/currentBranch"].description) ||
+				""
+			);
+		},
+		canRelease() {
+			return (
+				(this.$store.getters["branch/currentBranch"] &&
+					this.$store.getters["branch/currentBranch"].canRelease) ||
+				false
+			);
+		}
 	}
 };
 </script>
