@@ -5,7 +5,7 @@
 			<v-list-item-group v-model="selectedBranchIndex" color="primary">
 				<v-list-item v-for="branch in branches" :key="branch._id">
 					<v-list-item-content>
-						<v-list-item-title v-text="branch.name"></v-list-item-title>
+						<v-list-item-title v-text="branch"></v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
 			</v-list-item-group>
@@ -22,12 +22,13 @@ export default {
 	data() {
 		return {
 			selectedBranchIndex: 0,
-			branches: [
-				{ name: "Real-Time", icon: "mdi-clock" },
-				{ name: "Audience", icon: "mdi-account" },
-				{ name: "Conversions", icon: "mdi-flag" }
-			]
+			
 		};
+	},
+	computed: {
+		branches() {
+			return this.$store.getters['branch/productBranches'].map(b => b.name)
+		}
 	},
 	method: {
 		addNewBranch() {}

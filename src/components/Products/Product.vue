@@ -1,6 +1,6 @@
 <template>
-	<v-row justify="center">
-		<v-expansion-panels accordion focusable multiple>
+	<v-row justify="center" v-if="!isLoading">
+		<v-expansion-panels accordion focusable multiple >
 			<DetailsAccordion></DetailsAccordion>
 			<BranchAccordion></BranchAccordion>
 		</v-expansion-panels>
@@ -18,11 +18,13 @@ export default {
 		BranchAccordion
 	},
 	created() {
-		console.log(this.$route.params.id);
-		this.$store
-			.dispatch("product/getProduct", { id: this.$route.params.id })
-			.then()
-			.catch(err => console.log(err));
+		Promise.all([
+			this.$store.dispatch("product/getProduct", { id: this.$route.params.id }),
+			this.$store.dispatch('branch/getProductBranches', {productId: this.$route.params.id})
+		]).then(() => {
+			this.isLoading = false
+		}).catch(err => console.log(err));
+
 
 		// if (!this.$store.getters("user/allUsers")) {
 		// 	this.$store
@@ -38,7 +40,8 @@ export default {
 	data() {
 		return {
 			name: "",
-			description: ""
+			description: "",
+			isLoading: true
 		};
 	},
 	computed: {

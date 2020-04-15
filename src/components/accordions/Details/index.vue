@@ -1,5 +1,5 @@
 <template>
-	<v-expansion-panel v-if="!isLoading">
+	<v-expansion-panel>
 		<v-expansion-panel-header>Details</v-expansion-panel-header>
 
 		<v-expansion-panel-content>
@@ -47,7 +47,6 @@ export default {
 		this.$store
 			.dispatch("user/getAllUsers")
 			.then(() => {
-				this.isLoading = false;
 			})
 			.catch(err => {
 				console.log(err);
@@ -55,7 +54,6 @@ export default {
 	},
 	data() {
 		return {
-			isLoading: true,
 			selectedItem: [
 				{
 					text: "a",

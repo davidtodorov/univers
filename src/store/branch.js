@@ -28,7 +28,7 @@ const product = {
             state.allBranches = branches;
         },
         setProductBranches(state, branches) {
-            state.branches = branches;
+            state.productBranches = branches;
         },
         setCurrentBranch(state, branch) {
             state.currentBranch = branch;
