@@ -3,10 +3,11 @@ const models = require('../models');
 module.exports = {
     get: (req, res, next) => {
 
-        const { productId } = req.query;
-        models.Version.find({ product: productId }).populate('currentVersion').populate('versions')
-            .then(branches => {
-                res.send(branches)
+        const { productId }  = req.query;
+        const { branchId }  = req.query;
+        models.Version.find(productId ? { product: productId } : branchId ? { branch: branchId } : {})
+            .then(versions => {
+                res.send(versions)
             }).catch(err => {
                 console.log(err.response.data);
                 next();
@@ -15,10 +16,10 @@ module.exports = {
 
     post: (req, res, next) => {
         console.log(req.params);
-        const { versionNumber, productId } = req.body;
+        const { versionNumber, branchId, productId } = req.body;
 
         models.Version
-            .create({ number:versionNumber, product: productId })
+            .create({ number: versionNumber, branch: branchId, product: productId })
             .then(createdVersion => {
                 res.send(createdVersion);
             })

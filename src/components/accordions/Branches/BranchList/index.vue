@@ -42,6 +42,7 @@ export default {
 		selectedBranchIndex(newVal){
 			let item = this.branches[newVal];
 			this.$store.commit('branch/setCurrentBranch', item);
+			this.$store.dispatch('version/getBranchVersions', { branchId: item._id})
 			console.log(item)
 		}
 	}

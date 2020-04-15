@@ -6,7 +6,7 @@
 
 				<v-data-table
 					:headers="headers"
-					:items="products"
+					:items="versions"
 					class="elevation-1"
 					item-key="_id"
 					disable-pagination
@@ -32,11 +32,10 @@ const headers = [
 	{
 		text: "Name",
 		align: "start",
-		value: "name",
+		value: "number",
 		width: "750px",
 		divider: true
 	},
-	{ text: "Description", value: "description", divider: true },
 	{ text: "Actions", value: "actions", sortable: false, width: "125px" }
 ];
 export default {
@@ -56,7 +55,7 @@ export default {
 	computed: {
 		...productHelpers.mapGetters(["products"]),
 		versions() {
-			return this.$store.getters["version/ProductVersions"] || [];
+			return this.$store.getters["version/branchVersions"] || [];
 		}
 	}
 };

@@ -29,8 +29,15 @@ export default {
 				productId: this.$route.params.id
 			})
 		])
-			.then(() => {
-				this.isLoading = false;
+			// eslint-disable-next-line no-unused-vars
+			.then(([product, branches, versions]) => {
+				if (branches.length > 0) {
+					this.$store.dispatch("version/getBranchVersions", {
+						branchId: branches[0]._id
+					}).then(() => {
+						this.isLoading = false;
+					}).catch(err => console.log(err));
+				}
 			})
 			.catch(err => console.log(err));
 	},

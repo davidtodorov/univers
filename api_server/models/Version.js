@@ -8,6 +8,10 @@ const VersionSchema = new Schema({
         type: String,
         require: true
     },
+    branch: {
+        type: ObjectId,
+        ref: 'Branch'
+    },
     product: {
         type: ObjectId,
         ref: 'Product'

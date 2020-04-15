@@ -75,6 +75,7 @@ export default {
 				this.$store
 					.dispatch("version/addVersion", {
 						versionNumber: this.versionNumber,
+						branchId: this.$store.getters['branch/currentBranch']._id,
 						productId: this.currentProduct._id
 					})
 					.then(() => {

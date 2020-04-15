@@ -3,6 +3,7 @@ import axios from '@/axios';
 const getDefaultState = () => {
     return {
         productVersions: [],
+        branchVersions: []
     }
 }
 
@@ -13,16 +14,28 @@ const product = {
         productVersions(state) {
             return state.productVersions;
         },
+        branchVersions(state) {
+            return state.branchVersions;
+        },
     },
     mutations: {
         setProductVersions(state, versions) {
             state.productVersions = versions;
         },
+        setBranchVersions(state, versions) {
+            state.branchVersions = versions;
+        },
         addProductVersion(state, version) {
             state.productVersions.push(version);
         },
+        addBranchVersion(state, version) {
+            state.branchVersions.push(version);
+        },
         removeProductVersion(state, id) {
-            state.productVersions = state.productVersions.filter(p => p._id != id);
+            state.productVersions = state.productVersions.filter(v => v._id != id);
+        },
+        removeBranchVersion(state, id) {
+            state.branchVersions = state.branchVersions.filter(v => v._id != id);
         },
         resetState(state) {
             const initial = getDefaultState();
@@ -42,10 +55,23 @@ const product = {
                 return Promise.reject(err)
             });
         },
-        addVersion({ commit }, { versionNumber, productId }) {
-            return axios.post('versions/', { versionNumber, productId })
+        getBranchVersions({ commit }, { branchId }) {
+            return axios.get("/versions", {
+                params: {
+                    branchId
+                }
+            }).then(res => {
+                commit('setBranchVersions', res.data);
+                return Promise.resolve();
+            }).catch(err => {
+                return Promise.reject(err)
+            });
+        },
+        addVersion({ commit }, { versionNumber, branchId, productId }) {
+            return axios.post('versions/', { versionNumber, branchId, productId })
                 .then(res => {
-                    commit('addProductVersion', res.data)
+                    commit('addProductVersion', res.data);
+                    commit('addBranchVersion', res.data);
                     return Promise.resolve()
                 }).catch(err => {
                     Promise.reject(err)

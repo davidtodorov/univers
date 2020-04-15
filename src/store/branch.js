@@ -61,12 +61,12 @@ const product = {
                 }
             }).then(res => {
                 commit('setProductBranches', res.data);
-                if(res.data.length > 0) {
+                if (res.data.length > 0) {
                     commit('setCurrentBranch', res.data[0]);
                 } else {
                     commit('setCurrentBranch', null);
                 }
-                return Promise.resolve();
+                return Promise.resolve(res.data);
             }).catch(err => {
                 return Promise.reject(err)
             });
