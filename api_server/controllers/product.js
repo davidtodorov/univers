@@ -3,11 +3,15 @@ const models = require('../models');
 module.exports = {
   get: (req, res, next) => {
 
-    const { id } = req.params;
-    models.Product.find(id ? { _id: id } : {})
+    const { id } = req.query;
+    models.Product.find(id ? { _id: id } : {}).populate('admins')
       .then(products => {
-        res.send(products)
-      }).catch(next);
+        
+        res.send( id ? products[0] : products)
+      }).catch(err => {
+        console.log(err.response.data);
+        next();
+      });
     // if (technology) {
     //   models.Tutorial.find({ technology }).populate('editor')
     //     .then((tutorials) => res.send(tutorials))

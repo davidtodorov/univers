@@ -1,5 +1,5 @@
 <template>
-	<v-expansion-panel>
+	<v-expansion-panel v-if="!isLoading">
 		<v-expansion-panel-header>Details</v-expansion-panel-header>
 
 		<v-expansion-panel-content>
@@ -16,12 +16,15 @@
 				<v-row cols="12" sm="6" md="6">
 					<v-col cols="12" sm="12" md="12">
 						<v-combobox
-							v-model="selectedAdmins"
-							:items="mapForCombobox(allUsers)"
-							label="Select Admins"
+							:items="itens"
+							v-model="selectedItem"
+							item-text="text"
+							label="Cartório"
+							single-line
+							return-object
 							multiple
-							chips
 						></v-combobox>
+						<div>{{selectedItem}}</div>
 					</v-col>
 				</v-row>
 			</v-card-text>
@@ -39,24 +42,79 @@
 import { userHelpers } from "@/store";
 
 export default {
-	name: 'DetailsAccordion',
+	name: "Details",
 	created() {
 		this.$store
 			.dispatch("user/getAllUsers")
-			.then(() => {})
+			.then(() => {
+				this.isLoading = false;
+			})
 			.catch(err => {
 				console.log(err);
 			});
 	},
 	data() {
 		return {
-			selectedAdmins: "",
-			name: "",
-			description: ""
+			isLoading: true,
+			selectedItem: [
+				{
+					text: "a",
+					value: 1
+				},
+				{
+					text: "b",
+					value: 2
+				},
+				{
+					text: "c",
+					value: 3
+				}
+			],
+			itens: [
+				{
+					text: "a",
+					value: 1
+				},
+				{
+					text: "b",
+					value: 2
+				},
+				{
+					text: "c",
+					value: 3
+				}
+			]
 		};
 	},
 	computed: {
-		...userHelpers.mapGetters(["allUsers"])
+		...userHelpers.mapGetters(["allUsers"]),
+		name() {
+			return this.$store.getters["product/currentProduct"].name || "";
+		},
+		description() {
+			return (
+				this.$store.getters["product/currentProduct"].description || ""
+			);
+		},
+		selectedAdmins: {
+			get() {
+				if (this.$store.getters["product/currentProduct"]) {
+					let mappedAdmins = this.$store.getters[
+						"product/currentProduct"
+					].admins.reduce((acc, val) => {
+						acc.push({ text: val.email, value: val._id });
+						return acc;
+					}, []);
+					return mappedAdmins;
+				}
+				return "";
+			},
+			set(val) {
+				// eslint-disable-next-line no-debugger
+				debugger;
+				return val;
+			}
+		}
 	},
 	methods: {
 		mapForCombobox(items) {
@@ -66,12 +124,8 @@ export default {
 			}, []);
 			return mappedItems;
 		},
-		close(){
-
-		}, 
-		save(){
-
-		}
+		close() {},
+		save() {}
 	}
 };
 </script>

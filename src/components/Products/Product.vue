@@ -19,21 +19,33 @@ export default {
 	},
 	created() {
 		console.log(this.$route.params.id);
-		
+		this.$store
+			.dispatch("product/getProduct", { id: this.$route.params.id })
+			.then()
+			.catch(err => console.log(err));
+
+		// if (!this.$store.getters("user/allUsers")) {
+		// 	this.$store
+		// 		.dispatch("user/getAllUsers")
+		// 		.then(() => {
+		// 			this.isLoading = false;
+		// 		})
+		// 		.catch(err => {
+		// 			console.log(err);
+		// 		});
+		// }
 	},
 	data() {
 		return {
-			selectedAdmins: "",
 			name: "",
 			description: ""
 		};
 	},
 	computed: {
-		...userHelpers.mapGetters(["allUsers"])
-	},
-	methods: {
+		...userHelpers.mapGetters(["allUsers"]),
 		
-	}
+	},
+	methods: {}
 };
 </script>
 

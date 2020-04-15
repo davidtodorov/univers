@@ -3,7 +3,7 @@ import axios from '@/axios';
 const getDefaultState = () => {
     return {
         products: [],
-        selectedProduct: null
+        currentProduct: {}
     }
 }
 
@@ -15,19 +15,19 @@ const product = {
         products(state) {
             return state.products;
         },
-        selectedProduct(state) {
-            return state.selectedProduct;
+        currentProduct(state) {
+            return state.currentProduct;
         }
     },
     mutations: {
         setProducts(state, products) {
             state.products = products;
         },
-        setSelectedProduct(state, product) {
-            state.selectedProduct = product;
+        setCurrentProduct(state, product) {
+            state.currentProduct = product;
         },
-        resetSelectedProduct(state) {
-            state.selectedProduct = null;
+        resetCurrentProduct(state) {
+            state.currentProduct = null;
         },
         addProduct(state, product) {
             state.products.push(product);
@@ -52,14 +52,16 @@ const product = {
                 })
         },
         getProduct({ commit }, { id }) {
-            return axios.get("/product/", { id })
-                .then(res => {
-                    console.log(res);
-                    commit('setSelectedProduct', res.data);
-                    return Promise.resolve();
-                }).catch(err => {
-                    return Promise.reject(err)
-                });
+            return axios.get("/products/", {
+                params: {
+                    id
+                }
+            }).then(res => {
+                commit('setCurrentProduct', res.data);
+                return Promise.resolve();
+            }).catch(err => {
+                return Promise.reject(err)
+            });
         },
         addProduct({ commit }, { name, description }) {
             return axios.post('products/', { name, description })
