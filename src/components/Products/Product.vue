@@ -24,6 +24,9 @@ export default {
 			}),
 			this.$store.dispatch("branch/getProductBranches", {
 				productId: this.$route.params.id
+			}),
+			this.$store.dispatch("version/getProductVersions", {
+				productId: this.$route.params.id
 			})
 		])
 			.then(() => {

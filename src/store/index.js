@@ -4,7 +4,8 @@ import Vuex, { createNamespacedHelpers } from 'vuex';
 
 import userModule from './user'
 import productModule from './product'
-import branchMudle from './branch'
+import branchModule from './branch'
+import versionModule from './version'
 
 Vue.use(Vuex);
 
@@ -12,13 +13,15 @@ const store = new Vuex.Store({
     modules: {
         user: userModule,
         product: productModule,
-        branch: branchMudle
+        branch: branchModule,
+        version: versionModule,
     },
     actions: {
         clearAll({ commit }) {
             commit('user/resetState')
             commit('product/resetState')
             commit('branch/resetState')
+            commit('version/resetState')
             return Promise.resolve();
         }
     }

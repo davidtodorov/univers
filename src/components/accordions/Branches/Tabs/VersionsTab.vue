@@ -2,6 +2,8 @@
 	<v-tab-item>
 		<v-card flat>
 			<v-card-text>
+				<NewVersion></NewVersion>
+
 				<v-data-table
 					:headers="headers"
 					:items="products"
@@ -25,6 +27,7 @@
 
 <script>
 import { productHelpers } from "@/store";
+import NewVersion from "../NewVersion";
 const headers = [
 	{
 		text: "Name",
@@ -38,7 +41,9 @@ const headers = [
 ];
 export default {
 	name: "GeneralTab",
-	components: {},
+	components: {
+		NewVersion
+	},
 	data() {
 		return {
 			name: "",
@@ -49,7 +54,10 @@ export default {
 		};
 	},
 	computed: {
-		...productHelpers.mapGetters(["products"])
+		...productHelpers.mapGetters(["products"]),
+		versions() {
+			return this.$store.getters["version/ProductVersions"] || [];
+		}
 	}
 };
 </script>
