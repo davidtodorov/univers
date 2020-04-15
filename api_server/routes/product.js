@@ -10,6 +10,6 @@ router.post('/', auth(), controllers.product.post);
 
 router.put('/:id', auth(), controllers.product.put);
 
-router.delete('/:id', auth(), controllers.product.delete);
+router.delete('/', auth(), controllers.product.delete);
 
 module.exports = router;

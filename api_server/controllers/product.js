@@ -6,21 +6,12 @@ module.exports = {
     const { id } = req.query;
     models.Product.find(id ? { _id: id } : {}).populate('admins')
       .then(products => {
-        
-        res.send( id ? products[0] : products)
+
+        res.send(id ? products[0] : products)
       }).catch(err => {
         console.log(err.response.data);
         next();
       });
-    // if (technology) {
-    //   models.Tutorial.find({ technology }).populate('editor')
-    //     .then((tutorials) => res.send(tutorials))
-    //     .catch(next);
-    //   return;
-    // }
-    // models.Tutorial.find(id ? { _id: id } : {}).populate('editor')
-    //   .then((tutorials) => res.send(tutorials))
-    //   .catch(next);
   },
 
   post: (req, res, next) => {
@@ -34,20 +25,6 @@ module.exports = {
         res.send(createdProduct);
       })
       .catch(next);
-    // const { technology, name, content } = req.body;
-    // const { _id } = req.user;
-
-    // models.Tutorial.create({ editor: _id, technology, name, content })
-    //   .then((createdTutorial) => {
-    //     return Promise.all([
-    //       models.User.updateOne({ _id }, { $push: { editingHistory: createdTutorial._id } }),
-    //       models.Tutorial.findOne({ _id: createdTutorial._id })
-    //     ]);
-    //   })
-    //   .then(([modifiedObj, tutorialObj]) => {
-    //     res.send(tutorialObj);
-    //   })
-    //   .catch(next);
   },
 
   put: (req, res, next) => {
@@ -71,11 +48,14 @@ module.exports = {
   },
 
   delete: (req, res, next) => {
-
-    const id = req.params.id;
-
-    models.Tutorial.deleteOne({ _id: id })
-      .then((removedTutorial) => res.send(removedTutorial))
-      .catch(next)
+    const id = req.query.id;
+    const { id: userId } = req.user;
+    models.Product.findOne({ _id: id }).populate('creator').populate('admins').then(product => {
+      if (product.creator.id === userId || product.admins.find(a => a.id === userId)) {
+        models.Product.deleteOne({ _id: product.id }).then(() => {
+          res.send(product)
+        }).catch(next)
+      }
+    })
   }
 };

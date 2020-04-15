@@ -30,7 +30,7 @@
 		>
 			<template v-slot:item.actions="{ item }">
 				<i class="fas fa-edit" @click="editProduct(item)"></i>
-				<i class="fas fa-trash" @click="showAlert(item)"></i>
+				<i class="fas fa-trash" @click="deleteProduct(item)"></i>
 			</template>
 		</v-data-table>
 		<div>{{currentUser}}</div>
@@ -91,9 +91,9 @@ export default {
 		},
 		deleteProduct(item) {
 			this.$store
-				.dispatch("product/deleteProduct", item._id)
+				.dispatch("product/deleteProduct", { id: item._id})
 				.then(() => {
-					console.log("product deleted");
+					return Promise.resolve();
 				})
 				.catch(err => {
 					console.log(err);
@@ -118,6 +118,7 @@ export default {
 
 .fa-edit,
 .fa-trash {
+	cursor: pointer;
 	font-size: 27px;
 }
 </style>>

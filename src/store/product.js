@@ -73,7 +73,13 @@ const product = {
                 });
         },
         deleteProduct({ commit }, { id }) {
-            return axios.delete('/products', { id }).then(() => {
+            // eslint-disable-next-line no-debugger
+            debugger
+            axios.delete("/products/", {
+                params: {
+                    id
+                }
+            }).then(() => {
                 commit('removeProduct', id);
                 return Promise.resolve()
             }).catch(err => {
