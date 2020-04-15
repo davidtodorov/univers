@@ -10,11 +10,7 @@
 
 				<v-tabs-items v-model="tab">
 					<GeneralTab></GeneralTab>
-                    <v-tab-item>
-						<v-card flat>
-							<v-card-text>smth2</v-card-text>
-						</v-card>
-					</v-tab-item>
+                    <VersionsTab></VersionsTab>
                     <v-tab-item>
 						<v-card flat>
 							<v-card-text>smth3</v-card-text>
@@ -28,9 +24,11 @@
 
 <script>
 import GeneralTab from './GeneralTab'
+import VersionsTab from './VersionsTab'
 export default {
     components: {
-        GeneralTab
+        GeneralTab,
+        VersionsTab
     },
 	data() {
 		return {

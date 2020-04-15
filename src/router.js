@@ -33,6 +33,14 @@ const router = new VueRouter({
             component: Register,
         },
         {
+            path: '/products/:id',
+            name: 'Product',
+            component: Product,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
             path: '/products',
             name: 'ProductList',
             component: ProductList,
@@ -40,14 +48,7 @@ const router = new VueRouter({
                 requiresAuth: true
             }
         },
-        {
-            path: '/product',
-            name: 'Product',
-            component: Product,
-            meta: {
-                requiresAuth: true
-            }
-        }
+        
         // {
         //     path: '/settings',
         //     name: 'Settings',

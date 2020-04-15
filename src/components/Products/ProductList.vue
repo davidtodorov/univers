@@ -29,7 +29,7 @@
 			@click:row="showAlert"
 		>
 			<template v-slot:item.actions="{ item }">
-				<i class="fas fa-edit"></i>
+				<i class="fas fa-edit" @click="editProduct(item)"></i>
 				<i class="fas fa-trash" @click="showAlert(item)"></i>
 			</template>
 		</v-data-table>
@@ -39,7 +39,6 @@
 
 <script>
 import AppNewProduct from "@/components/products/NewProduct";
-//import AppEditProduct from "@/components/products/EditProduct";
 import { productHelpers } from "@/store";
 import { userHelpers } from "@/store";
 
@@ -57,8 +56,7 @@ const headers = [
 
 export default {
 	components: {
-		AppNewProduct,
-		//AppEditProduct
+		AppNewProduct
 	},
 	created() {
 		this.isGridLoading = true;
@@ -88,6 +86,9 @@ export default {
 		showAlert(item) {
 			console.log(item);
 		},
+		editProduct(item) {
+			this.$router.push({ name: "Product", params: { id: item._id } });
+		},
 		deleteProduct(item) {
 			this.$store
 				.dispatch("product/deleteProduct", item._id)
@@ -97,8 +98,7 @@ export default {
 				.catch(err => {
 					console.log(err);
 				});
-		},
-		
+		}
 	}
 };
 </script>

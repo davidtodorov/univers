@@ -12,7 +12,7 @@
 				</v-row>
 				<v-row cols="12" sm="6" md="6">
 					<v-col cols="6" sm="6" md="6">
-						<v-combobox v-model="selectedBranches" :items="branches" label="Select Admins" multiple chips></v-combobox>
+						<v-combobox v-model="selectedBranches" :items="branches" label="Version" multiple chips></v-combobox>
 					</v-col>
 					<v-col cols="6" sm="6" md="6">
 						<v-switch label="Can Release" color="primary" value="primary" hide-details></v-switch>
