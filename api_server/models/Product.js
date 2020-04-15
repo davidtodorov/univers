@@ -15,6 +15,10 @@ const ProductSchema = new Schema({
         type: ObjectId,
         ref: 'User'
     },
+    admins: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
     branches: [{
         type: ObjectId,
         ref: 'Branch'

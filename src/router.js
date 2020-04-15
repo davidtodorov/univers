@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Login from '@/components/authentication/Login'
 import Register from '@/components/authentication/Register'
 import ProductList from '@/components/products/ProductList'
+import Product from '@/components/products/Product'
 
 // import {userHelpers} from '@/store'
 import store from '@/store'
@@ -35,6 +36,14 @@ const router = new VueRouter({
             path: '/products',
             name: 'ProductList',
             component: ProductList,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/product',
+            name: 'Product',
+            component: Product,
             meta: {
                 requiresAuth: true
             }

@@ -68,10 +68,10 @@ module.exports = {
 
   delete: (req, res, next) => {
 
-    // const id = req.params.id;
+    const id = req.params.id;
 
-    // models.Tutorial.deleteOne({ _id: id })
-    //   .then((removedTutorial) => res.send(removedTutorial))
-    //   .catch(next)
+    models.Tutorial.deleteOne({ _id: id })
+      .then((removedTutorial) => res.send(removedTutorial))
+      .catch(next)
   }
 };

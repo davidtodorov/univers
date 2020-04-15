@@ -32,6 +32,9 @@ const product = {
         addProduct(state, product) {
             state.products.push(product);
         },
+        removeProduct(state, id) {
+            state.products = state.products.filter(p => p._id != id);
+        },
         resetState(state) {
             const initial = getDefaultState();
             Object.keys(initial).forEach(key => { state[key] = initial[key] })
@@ -66,6 +69,14 @@ const product = {
                 }).catch(err => {
                     Promise.reject(err)
                 });
+        },
+        deleteProduct({ commit }, { id }) {
+            return axios.delete('/products', { id }).then(() => {
+                commit('removeProduct', id);
+                return Promise.resolve()
+            }).catch(err => {
+                Promise.reject(err);
+            })
         }
     }
 }

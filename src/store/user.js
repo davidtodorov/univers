@@ -2,10 +2,10 @@ import axios from '@/axios';
 
 const getDefaultState = () => {
     return {
-        currentUser: null
+        currentUser: null,
+        allUsers: []
     }
 }
-
 
 const user = {
     namespaced: true,
@@ -13,6 +13,9 @@ const user = {
     getters: {
         currentUser(state) {
             return state.currentUser;
+        },
+        allUsers(state) {
+            return state.allUsers
         }
     },
     mutations: {
@@ -22,6 +25,9 @@ const user = {
         resetState(state) {
             const initial = getDefaultState();
             Object.keys(initial).forEach(key => { state[key] = initial[key] })
+        },
+        setAllUsers(state, users) {
+            state.allUsers = users;
         }
     },
     actions: {
@@ -58,7 +64,7 @@ const user = {
                     return Promise.reject(err);
                 })
         },
-        getCurrentUser({ commit }) {
+    getCurrentUser({ commit }) {
             return axios.get("/auth")
                 .then(res => {
                     console.log(res);
@@ -67,8 +73,18 @@ const user = {
                 }).catch(err => {
                     return Promise.reject(err)
                 });
+        },
+        getAllUsers({ commit }) {
+            return axios.get('/user').then((res) => {
+                commit('setAllUsers', res.data)
+                return Promise.resolve();
+            }).catch(err => {
+                return Promise.reject(err);
+            })
         }
     }
-}
+};
+
+
 
 export default user;

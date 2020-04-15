@@ -15,6 +15,7 @@
 			</v-row>
 		</v-container>
 		<AppNewProduct></AppNewProduct>
+		<!-- <AppEditProduct></AppEditProduct> -->
 		<v-data-table
 			:headers="headers"
 			:items="products"
@@ -26,7 +27,6 @@
 			disable-pagination
 			hide-default-footer
 			@click:row="showAlert"
-
 		>
 			<template v-slot:item.actions="{ item }">
 				<i class="fas fa-edit"></i>
@@ -39,6 +39,7 @@
 
 <script>
 import AppNewProduct from "@/components/products/NewProduct";
+//import AppEditProduct from "@/components/products/EditProduct";
 import { productHelpers } from "@/store";
 import { userHelpers } from "@/store";
 
@@ -48,7 +49,7 @@ const headers = [
 		align: "start",
 		value: "name",
 		width: "750px",
-		divider: true,
+		divider: true
 	},
 	{ text: "Description", value: "description", divider: true },
 	{ text: "Actions", value: "actions", sortable: false, width: "125px" }
@@ -56,7 +57,8 @@ const headers = [
 
 export default {
 	components: {
-		AppNewProduct
+		AppNewProduct,
+		//AppEditProduct
 	},
 	created() {
 		this.isGridLoading = true;
@@ -85,7 +87,18 @@ export default {
 	methods: {
 		showAlert(item) {
 			console.log(item);
-		}
+		},
+		deleteProduct(item) {
+			this.$store
+				.dispatch("product/deleteProduct", item._id)
+				.then(() => {
+					console.log("product deleted");
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		},
+		
 	}
 };
 </script>
@@ -100,11 +113,11 @@ export default {
 }
 
 .fa-trash {
-	color:red;
+	color: red;
 }
 
-.fa-edit, .fa-trash {
+.fa-edit,
+.fa-trash {
 	font-size: 27px;
 }
-
 </style>>
