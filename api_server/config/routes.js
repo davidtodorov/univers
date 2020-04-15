@@ -10,5 +10,7 @@ module.exports = (app) => {
     
     app.use('/api/products', router.product);
 
+    app.use('/api/branches', router.branch);
+
     app.use('*', (req, res, next) => res.send('<h1> Wrong route maybe? </h1>'));
 };

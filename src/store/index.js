@@ -4,13 +4,15 @@ import Vuex, { createNamespacedHelpers } from 'vuex';
 
 import userModule from './user'
 import productModule from './product'
+import branchMudle from './branch'
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
     modules: {
         user: userModule,
-        product: productModule
+        product: productModule,
+        branch: branchMudle
     }
     // plugins: [createPersistedState()]
 })
