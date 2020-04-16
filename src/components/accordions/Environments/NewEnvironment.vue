@@ -107,9 +107,11 @@ export default {
 		},
 		save() {
 			this.$store
-				.dispatch("branch/addBranch", {
+				.dispatch("environment/addEnvironment", {
 					name: this.name,
-					description: this.description,
+                    description: this.description,
+                    versionId: this.selectedVersion._id,
+                    branchId: this.selectedBranch._id,
 					productId: this.currentProduct._id
 				})
 				.then(() => {

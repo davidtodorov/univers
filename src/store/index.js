@@ -2,10 +2,11 @@ import Vue from 'vue';
 import Vuex, { createNamespacedHelpers } from 'vuex';
 //import createPersistedState from "vuex-persistedstate";
 
-import userModule from './user'
-import productModule from './product'
-import branchModule from './branch'
-import versionModule from './version'
+import userModule from './user';
+import productModule from './product';
+import branchModule from './branch';
+import versionModule from './version';
+import environmentModule from './environment';
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ const store = new Vuex.Store({
         product: productModule,
         branch: branchModule,
         version: versionModule,
+        environment: environmentModule
     },
     actions: {
         clearAll({ commit }) {

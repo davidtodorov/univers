@@ -23,6 +23,10 @@ const EnvironmentSchema = new Schema({
         type: ObjectId,
         ref: 'WebAddress'
     }],
+    product: {
+        type: ObjectId,
+        ref: 'Product'
+    },
 
 });
 

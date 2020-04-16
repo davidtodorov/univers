@@ -3,7 +3,8 @@ const tutorial = require('./tutorial');
 const product = require('./product');
 const branch = require('./branch'); 
 const version = require('./version'); 
-const release = require('./release'); 
+const release = require('./release');
+const environment = require('./environment');
 const auth = require('./auth');
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
   branch,
   product,
   version,
-  release
+  release,
+  environment
 };

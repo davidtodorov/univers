@@ -7,7 +7,7 @@
 				<AppNewEnvironment></AppNewEnvironment>
 				<v-data-table
 					:headers="headers"
-					:items="versions"
+					:items="environments"
 					class="elevation-1"
 					item-key="_id"
 					disable-pagination
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import { userHelpers } from "@/store";
 import AppNewEnvironment from "./NewEnvironment";
 
 export default {
@@ -35,13 +34,14 @@ export default {
 	},
 	created() {
 		this.$store
-			.dispatch("user/getAllUsers")
+			.dispatch("environment/getProductEnvironments", {
+				productId: this.$route.params.id
+			})
 			.then(() => {})
 			.catch(err => {
 				console.log(err);
 			});
 	},
-	props: ["admins"],
 	data() {
 		return {
 			selectedAdmins: this.admins,
@@ -49,8 +49,25 @@ export default {
 				{
 					text: "Name",
 					align: "start",
-					value: "number",
-					width: "750px",
+					value: "name",
+					divider: true
+				},
+				{
+					text: "Description",
+					align: "start",
+					value: "description",
+					divider: true
+				},
+				{
+					text: "Branch",
+					align: "start",
+					value: "branch.name",
+					divider: true
+				},
+				{
+					text: "Version",
+					align: "start",
+					value: "version.number",
 					divider: true
 				},
 				{
@@ -63,51 +80,14 @@ export default {
 		};
 	},
 	computed: {
-		...userHelpers.mapGetters(["allUsers"]),
-		name: {
-			get() {
-				return this.$store.getters["product/currentProduct"].name || "";
-			},
-			set(val) {
-				this.$store.getters["product/currentProduct"].name = val;
-			}
-		},
-		description: {
-			get() {
-				return (
-					this.$store.getters["product/currentProduct"].description ||
-					""
-				);
-			},
-			set(val) {
-				this.$store.getters["product/currentProduct"].description = val;
-			}
-        },
-        versions(){
-            return this.$store.getters['version/productVersions']
-        }
-	},
-	watch: {
-		selectedAdmins() {
-			// eslint-disable-next-line no-unused-vars
-			// let users = this.allUsers;
-			// let newValArray = Array.from(newVal).map(x => x.value);
-			// let newAdmins = this.allUsers.filter(u => newValArray.indexOf(u._id) !== -1);
-			// this.$store.commit('product/setCurrentProductAdmins', Array.from(newAdmins))
+		environments() {
+			return this.$store.getters["environment/productEnvironments"];
 		}
 	},
 	methods: {
-		mapForCombobox(items) {
-			let mappedItems = items.reduce((acc, val) => {
-				acc.push({ text: val.email, value: val._id });
-				return acc;
-			}, []);
-			return mappedItems;
-		},
 		close() {},
 		save() {
 			let newValArray = Array.from(this.selectedAdmins).map(x => x.value);
-			//let newAdmins = this.allUsers.filter(u => newValArray.indexOf(u._id) !== -1);
 			this.$store
 				.dispatch("product/updateProduct", {
 					id: this.$store.getters["product/currentProduct"]._id,

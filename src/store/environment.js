@@ -42,10 +42,10 @@ const product = {
                 return Promise.reject(err)
             });
         },
-        addEnvironment({ commit }, { name, description, branchId, versionId }) {
-            return axios.post('environments/', { name, description, branchId, versionId })
+        addEnvironment({ commit }, { name, description, branchId, versionId, productId }) {
+            return axios.post('environments/', { name, description, branchId, versionId, productId })
                 .then(res => {
-                    commit('addProductEnvironment', res.data);
+                    commit('addProductEnvironment', res.data[0]);
                     return Promise.resolve()
                 }).catch(err => {
                     Promise.reject(err)

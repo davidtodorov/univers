@@ -4,6 +4,7 @@ const Product = require('./Product');
 const Branch = require('./Branch');
 const Version = require('./Version');
 const Release = require('./Release');
+const Environment = require('./Environment');
 const TokenBlacklist = require('./TokenBlacklist');
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
     Branch,
     Version,
     Release,
+    Environment,
     TokenBlacklist
 };
