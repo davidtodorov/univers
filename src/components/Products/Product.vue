@@ -1,7 +1,7 @@
 <template>
 	<v-row justify="center" v-if="!isLoading">
 		<v-expansion-panels accordion focusable multiple>
-			<DetailsAccordion></DetailsAccordion>
+			<DetailsAccordion :admins="productAdmins"></DetailsAccordion>
 			<BranchAccordion></BranchAccordion>
 		</v-expansion-panels>
 	</v-row>
@@ -9,7 +9,7 @@
 
 <script>
 import { userHelpers } from "@/store";
-import DetailsAccordion from "../accordions/Details";
+import DetailsAccordion from "../accordions/Details/Details";
 import BranchAccordion from "../accordions/Branches";
 
 export default {
@@ -32,11 +32,14 @@ export default {
 			// eslint-disable-next-line no-unused-vars
 			.then(([product, branches, versions]) => {
 				if (branches.length > 0) {
-					this.$store.dispatch("version/getBranchVersions", {
-						branchId: branches[0]._id
-					}).then(() => {
-						this.isLoading = false;
-					}).catch(err => console.log(err));
+					this.$store
+						.dispatch("version/getBranchVersions", {
+							branchId: branches[0]._id
+						})
+						.then(() => {
+							this.isLoading = false;
+						})
+						.catch(err => console.log(err));
 				}
 			})
 			.catch(err => console.log(err));
@@ -49,9 +52,25 @@ export default {
 		};
 	},
 	computed: {
-		...userHelpers.mapGetters(["allUsers"])
+		...userHelpers.mapGetters(["allUsers"]),
+		productAdmins() {
+			return (
+				this.mapForCombobox(
+					this.$store.getters["product/currentProduct"] &&
+						this.$store.getters["product/currentProduct"].admins
+				) || ""
+			);
+		}
 	},
-	methods: {}
+	methods: {
+		mapForCombobox(items) {
+			let mappedItems = items.reduce((acc, val) => {
+				acc.push({ text: val.email, value: val._id });
+				return acc;
+			}, []);
+			return mappedItems;
+		}
+	}
 };
 </script>
 

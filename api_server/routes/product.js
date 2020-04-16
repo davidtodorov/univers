@@ -8,7 +8,7 @@ router.get('/:id', controllers.product.get);
 
 router.post('/', auth(), controllers.product.post);
 
-router.put('/:id', auth(), controllers.product.put);
+router.put('/', auth(), controllers.product.put);
 
 router.delete('/', auth(), controllers.product.delete);
 

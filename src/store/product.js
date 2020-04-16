@@ -26,11 +26,17 @@ const product = {
         setCurrentProduct(state, product) {
             state.currentProduct = product;
         },
+        setCurrentProductAdmins(state, admins) {
+            state.currentProduct.admins = admins
+        },
         resetCurrentProduct(state) {
             state.currentProduct = null;
         },
         addProduct(state, product) {
             state.products.push(product);
+        },
+        updateProduct(state, product){
+            state.currentProduct = product;
         },
         removeProduct(state, id) {
             state.products = state.products.filter(p => p._id != id);
@@ -65,6 +71,15 @@ const product = {
         },
         addProduct({ commit }, { name, description }) {
             return axios.post('products/', { name, description })
+                .then(res => {
+                    commit('addProduct', res.data)
+                    return Promise.resolve()
+                }).catch(err => {
+                    Promise.reject(err)
+                });
+        },
+        updateProduct({ commit }, { id, name, description, admins }) {
+            return axios.put('products/', { id, name, description, admins })
                 .then(res => {
                     commit('addProduct', res.data)
                     return Promise.resolve()

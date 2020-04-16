@@ -28,6 +28,13 @@ module.exports = {
   },
 
   put: (req, res, next) => {
+    const { id, name, description, admins } = req.body;
+    models.Product.updateOne({ _id: id}, { name, description, admins}).then((updatedProdcut) => {
+      console.log(updatedProdcut);
+      res.send(updatedProdcut);
+    }).catch(err => {
+      next();
+    })
     // const { technology, name, content } = req.body;
 
     // const { _id } = req.user;

@@ -6,7 +6,18 @@ const utils = require('../utils');
 module.exports = {
   get: (req, res, next) => {
     models.User.find()
-      .then((users) => res.send(users))
+      .then((users) => {
+        let usersWithoutPass = [];
+        if (users.length > 0) {
+          usersWithoutPass = users.reduce((acc, val) => {
+            let user = JSON.parse(JSON.stringify(val));
+            delete user.password;
+            acc.push(user);
+            return acc;
+          }, [])
+        }
+        res.send(usersWithoutPass)
+      })
       .catch(next)
   },
 
@@ -41,7 +52,7 @@ module.exports = {
 
           let user = JSON.parse(JSON.stringify(foundUser));
           delete user.password;
-          
+
           res.cookie(config.authCookieName, token).send(user);
         })
         .catch(next);
