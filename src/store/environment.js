@@ -51,8 +51,12 @@ const product = {
                     Promise.reject(err)
                 });
         },
-        deleteProductVersion({ commit }, { id }) {
-            return axios.delete('/environments', { id }).then(() => {
+        deleteEnvironment({ commit }, { id }) {
+            return axios.delete("/environments/", {
+                params: {
+                    id
+                }
+            }).then(() => {
                 commit('removeProductEnvironment', id);
                 return Promise.resolve()
             }).catch(err => {

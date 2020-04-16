@@ -38,13 +38,8 @@ module.exports = {
 
     delete: (req, res, next) => {
         const id = req.query.id;
-        const { id: userId } = req.user;
-        models.Product.findOne({ _id: id }).populate('creator').populate('admins').then(product => {
-            if (product.creator.id === userId || product.admins.find(a => a.id === userId)) {
-                models.Product.deleteOne({ _id: product.id }).then(() => {
-                    res.send(product)
-                }).catch(next)
-            }
-        })
+        models.Environment.deleteOne({ _id: id}).then(deletedEnv => {
+            res.send(deletedEnv);
+        }).catch(next)
     }
 };

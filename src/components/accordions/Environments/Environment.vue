@@ -13,9 +13,8 @@
 					disable-pagination
 					hide-default-footer
 				>
-					<!-- <template v-slot:item.actions="{ item }"> -->
-					<template v-slot:item.actions>
-						<i class="fas fa-trash"></i>
+					<template v-slot:item.actions="{ item }">
+						<i class="fas fa-trash" @click="deleteEnv(item)"></i>
 					</template>
 				</v-data-table>
 			</v-card-text>
@@ -96,10 +95,9 @@ export default {
 				})
 				.then()
 				.catch(err => console.log(err.response.data));
-			// this.$store.commit(
-			// 	"product/setCurrentProductAdmins",
-			// 	Array.from(newAdmins)
-			// );
+		},
+		deleteEnv(item){
+			this.$store.dispatch('environment/deleteEnvironment', { id: item._id }).catch(err => console.log(err))
 		}
 	}
 };
