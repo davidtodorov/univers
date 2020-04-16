@@ -3,6 +3,7 @@
 		<v-expansion-panels accordion focusable multiple>
 			<DetailsAccordion :admins="productAdmins"></DetailsAccordion>
 			<BranchAccordion></BranchAccordion>
+			<EnvironmentAccordion></EnvironmentAccordion>
 		</v-expansion-panels>
 	</v-row>
 </template>
@@ -11,11 +12,13 @@
 import { userHelpers } from "@/store";
 import DetailsAccordion from "../accordions/Details/Details";
 import BranchAccordion from "../accordions/Branches";
+import EnvironmentAccordion from "../accordions/Environments/Environment";
 
 export default {
 	components: {
 		DetailsAccordion,
-		BranchAccordion
+		BranchAccordion,
+		EnvironmentAccordion
 	},
 	created() {
 		Promise.all([
