@@ -6,10 +6,10 @@
 			<v-card-text>
 				<v-row cols="12" sm="6" md="6">
 					<v-col cols="12" sm="6" md="6">
-						<v-text-field label="Name" v-model="name"></v-text-field>
+						<v-text-field outlined label="Name" v-model="name"></v-text-field>
 					</v-col>
 					<v-col cols="12" sm="6" md="6">
-						<v-text-field label="Description" v-model="description"></v-text-field>
+						<v-text-field outlined label="Description" v-model="description"></v-text-field>
 					</v-col>
 				</v-row>
 
@@ -24,6 +24,7 @@
 							return-object
 							chips
 							multiple
+							outlined
 						></v-combobox>
 					</v-col>
 				</v-row>

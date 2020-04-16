@@ -1,6 +1,6 @@
 <template>
 	<v-row justify="center" v-if="!isLoading">
-		<v-expansion-panels accordion focusable multiple>
+		<v-expansion-panels accordion focusable multiple >
 			<DetailsAccordion :admins="productAdmins"></DetailsAccordion>
 			<BranchAccordion></BranchAccordion>
 			<EnvironmentAccordion></EnvironmentAccordion>
@@ -43,6 +43,8 @@ export default {
 							this.isLoading = false;
 						})
 						.catch(err => console.log(err));
+				} else {
+					this.isLoading = false;
 				}
 			})
 			.catch(err => console.log(err));

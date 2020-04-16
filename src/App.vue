@@ -74,4 +74,18 @@ thead th span {
 	font-weight: bold !important;
 	color:black !important;
 }
+
+.fa-edit {
+	margin-right: 20px;
+}
+
+.fa-trash {
+	color: red;
+}
+
+.fa-edit,
+.fa-trash {
+	cursor: pointer;
+	font-size: 27px;
+}
 </style>

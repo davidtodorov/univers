@@ -15,7 +15,6 @@
 				>
 					<!-- <template v-slot:item.actions="{ item }"> -->
 					<template v-slot:item.actions>
-						<i class="fas fa-edit"></i>
 						<i class="fas fa-trash"></i>
 					</template>
 				</v-data-table>

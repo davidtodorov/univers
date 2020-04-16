@@ -29,11 +29,12 @@
 			@click:row="showAlert"
 		>
 			<template v-slot:item.actions="{ item }">
-				<i class="fas fa-edit" @click="editProduct(item)"></i>
-				<i class="fas fa-trash" @click="deleteProduct(item)"></i>
+				<div v-if="checkIfUserIsAdmin(item)">
+					<i class="fas fa-edit" @click="editProduct(item)"></i>
+					<i class="fas fa-trash" @click="deleteProduct(item)"></i>
+				</div>
 			</template>
 		</v-data-table>
-		<div>{{currentUser}}</div>
 	</div>
 </template>
 
@@ -91,13 +92,19 @@ export default {
 		},
 		deleteProduct(item) {
 			this.$store
-				.dispatch("product/deleteProduct", { id: item._id})
+				.dispatch("product/deleteProduct", { id: item._id })
 				.then(() => {
 					return Promise.resolve();
 				})
 				.catch(err => {
 					console.log(err);
 				});
+		},
+		checkIfUserIsAdmin(item) {
+			return (
+				item.creator === this.currentUser._id ||
+				!!item.admins.find(x => x._id === this.currentUser._id)
+			);
 		}
 	}
 };
@@ -106,19 +113,5 @@ export default {
 <style scoped>
 #newProduct > button {
 	margin: 0px !important;
-}
-
-.fa-edit {
-	margin-right: 20px;
-}
-
-.fa-trash {
-	color: red;
-}
-
-.fa-edit,
-.fa-trash {
-	cursor: pointer;
-	font-size: 27px;
 }
 </style>>

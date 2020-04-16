@@ -9,11 +9,8 @@
 			</template>
 
 			<template v-else>
-				<v-btn tile block color="#4fc3ff" class="white--text">Administrators</v-btn>
-				<v-btn tile block color="#4fc3ff" class="white--text" to="/products">Products</v-btn>
-				<v-btn tile block color="#4fc3ff" class="white--text">Integration notes</v-btn>
-				<v-btn tile block color="#4fc3ff" class="white--text">Deployment notes</v-btn>
-				<v-btn tile block color="#4fc3ff" class="white--text">Release notes</v-btn>
+				<v-btn tile block dark class="white--text" to="/products">Products</v-btn>
+				<v-btn tile block dark class="white--text" to="/environments">Environments</v-btn>
 				<v-divider></v-divider>
 				<v-btn tile block color="#4fc3ff" class="white--text" @click="onLogout">Logout</v-btn>
 			</template>

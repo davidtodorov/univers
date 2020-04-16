@@ -6,6 +6,7 @@ import Login from '@/components/authentication/Login'
 import Register from '@/components/authentication/Register'
 import ProductList from '@/components/products/ProductList'
 import Product from '@/components/products/Product'
+import Environments from '@/components/environments/Environments'
 
 // import {userHelpers} from '@/store'
 import store from '@/store'
@@ -48,15 +49,14 @@ const router = new VueRouter({
                 requiresAuth: true
             }
         },
-        
-        // {
-        //     path: '/settings',
-        //     name: 'Settings',
-        //     component: Settings,
-        //     meta: {
-        //         requiresAuth: true
-        //     }
-        // }
+        {
+            path: '/environments',
+            name: 'Environments',
+            component: Environments,
+            meta: {
+                requiresAuth: true
+            }
+        },
     ]
 });
 
