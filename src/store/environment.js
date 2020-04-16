@@ -22,7 +22,7 @@ const product = {
             state.productEnvironments.push(environment);
         },
         removeProductEnvironment(state, id) {
-            state.productVersions = state.productVersions.filter(v => v._id != id);
+            state.productEnvironments = state.productEnvironments.filter(v => v._id != id);
         },
         resetState(state) {
             const initial = getDefaultState();
