@@ -14,5 +14,7 @@ module.exports = (app) => {
 
     app.use('/api/versions', router.version);
 
+    app.use('/api/releases', router.release);
+
     app.use('*', (req, res, next) => res.send('<h1> Wrong route maybe? </h1>'));
 };
