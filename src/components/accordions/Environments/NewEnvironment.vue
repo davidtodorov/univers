@@ -37,7 +37,7 @@
 						></v-select>
 					</v-col>
 				</v-row>
-                <v-row cols="3" sm="3" md="3">
+                <!-- <v-row cols="3" sm="3" md="3">
 					<v-col cols="3" sm="3" md="3">
 						<v-text-field label="Web Address Name" v-model="webAddressName"></v-text-field>
 					</v-col>
@@ -51,7 +51,7 @@
 						<v-text-field label="Database" v-model="dbName"></v-text-field>
 					</v-col>
 					
-				</v-row>
+				</v-row> -->
 			</v-card-text>
 
 			<v-card-actions>

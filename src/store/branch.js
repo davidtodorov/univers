@@ -83,10 +83,19 @@ const product = {
                 return Promise.reject(err)
             });
         },
-        addBranch({ commit }, { name, description, productId }) {
-            return axios.post('branches/', { name, description, productId })
+        addBranch({ commit }, { name, description, currentVersionId, productId }) {
+            return axios.post('branches/', { name, description, currentVersionId, productId })
                 .then(res => {
                     commit('addProductBranch', res.data)
+                    return Promise.resolve()
+                }).catch(err => {
+                    Promise.reject(err)
+                });
+        },
+        updateBranch({ commit }, { id, name, description, currentVersionId, canRelease }) {
+            return axios.put('branches/', { id, name, description, currentVersionId, canRelease })
+                .then(res => {
+                    commit('addProduct', res.data)
                     return Promise.resolve()
                 }).catch(err => {
                     Promise.reject(err)

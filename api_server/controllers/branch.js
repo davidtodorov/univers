@@ -15,10 +15,10 @@ module.exports = {
 
     post: (req, res, next) => {
         console.log(req.params);
-        const { name, description, productId } =  req.body;
+        const { name, description, currentVersionId, productId } =  req.body;
 
         models.Branch
-            .create({ name, description, product: productId })
+            .create({ name, description, currentVersion: currentVersionId, product: productId })
             .then(createdProduct => {
                 res.send(createdProduct);
             })

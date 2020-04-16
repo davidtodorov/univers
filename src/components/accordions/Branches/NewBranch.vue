@@ -16,6 +16,16 @@
 					<v-col cols="12" sm="6" md="6">
 						<v-text-field label="Description" v-model="description"></v-text-field>
 					</v-col>
+					<v-col cols="6" sm="6" md="6">
+						<v-select
+							:items="productVersions"
+							v-model="selectedVersion"
+							item-text="number"
+							item-value="_id"
+							return-object
+							label="Version"
+						></v-select>
+					</v-col>
 				</v-row>
 			</v-card-text>
 
@@ -29,33 +39,39 @@
 </template>
 
 <script>
-import { productHelpers } from '@/store';
+import { productHelpers } from "@/store";
 export default {
-    name: 'NewBranch',
+	name: "NewBranch",
 	data() {
 		return {
 			name: "",
 			description: "",
+			selectedVersion: "",
 			showDialog: false
 		};
-    },
-    computed:{
-        ...productHelpers.mapGetters([
-            'currentProduct'
-        ])
-    },
+	},
+	computed: {
+		...productHelpers.mapGetters(["currentProduct"]),
+		productVersions() {
+			return this.$store.getters["version/productVersions"];
+		}
+	},
 	methods: {
 		close() {
 			this.showDialog = false;
 		},
 		save() {
-			this.$store.dispatch("branch/addBranch", { 
-                name: this.name,
-                description: this.description,
-                productId: this.currentProduct._id
-            }).then(() => {
-				this.showDialog = false;
-			}).catch(err => console.log(err));
+			this.$store
+				.dispatch("branch/addBranch", {
+					name: this.name,
+					description: this.description,
+					currentVersionId: this.selectedVersion._id,
+					productId: this.currentProduct._id
+				})
+				.then(() => {
+					this.showDialog = false;
+				})
+				.catch(err => console.log(err));
 		}
 	}
 };
