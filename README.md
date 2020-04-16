@@ -1,5 +1,7 @@
 # univers
 
+This is project about universal versioning. Main functionalities are adding product, branches, versions and environments.
+
 ## Project setup
 ```
 npm install

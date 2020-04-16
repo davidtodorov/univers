@@ -101,9 +101,13 @@ const product = {
                     Promise.reject(err)
                 });
         },
-        deleteProduct({ commit }, { id }) {
-            return axios.delete('/products', { id }).then(() => {
-                commit('removeProduct', id);
+        deleteCurrentBranch({ commit }, { id }) {
+            return axios.delete("/branches/", {
+                params: {
+                    id
+                }
+            }).then(() => {
+                commit('removeProductBranch', id);
                 return Promise.resolve()
             }).catch(err => {
                 Promise.reject(err);

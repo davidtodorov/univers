@@ -33,8 +33,9 @@
 				</v-row>
 			</v-card-text>
 			<v-card-actions>
+				<v-btn color="primary darken-1" @click="updateBranch">Save</v-btn>
 				<v-spacer></v-spacer>
-				<v-btn color="blue darken-1" text @click="updateBranch">Save</v-btn>
+				<v-btn color="red darken-1" @click="deleteBranch">Delete</v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-tab-item>
@@ -47,7 +48,7 @@ export default {
 	name: "GeneralTab",
 	data() {
 		return {
-			branches: [{ text: "smth", key: "smth" }],
+			branches: [{ text: "smth", key: "smth" }]
 		};
 	},
 	computed: {
@@ -93,11 +94,15 @@ export default {
 			get() {
 				return (
 					(this.$store.getters["branch/currentBranch"] &&
-						this.$store.getters["branch/currentBranch"].currentVersion) || ""
+						this.$store.getters["branch/currentBranch"]
+							.currentVersion) ||
+					""
 				);
 			},
 			set(val) {
-				this.$store.getters["branch/currentBranch"].currentVersion = val;
+				this.$store.getters[
+					"branch/currentBranch"
+				].currentVersion = val;
 			}
 		},
 		versions() {
@@ -106,12 +111,18 @@ export default {
 	},
 	methods: {
 		updateBranch() {
-			this.$store.dispatch('branch/updateBranch', {
+			this.$store.dispatch("branch/updateBranch", {
 				name: this.name,
 				description: this.description,
 				currentVersionId: this.selectedBranches._id,
 				canRelease: this.canRelease
-			})
+			});
+		},
+		deleteBranch() {
+			let id = this.$store.getters["branch/currentBranch"]._id;
+			this.$store
+				.dispatch("branch/deleteCurrentBranch", { id })
+				.catch(err => console.log(err));
 		}
 	}
 };

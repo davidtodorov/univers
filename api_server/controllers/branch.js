@@ -49,8 +49,8 @@ module.exports = {
 
         const id = req.params.id;
 
-        models.Tutorial.deleteOne({ _id: id })
-            .then((removedTutorial) => res.send(removedTutorial))
+        models.Branch.deleteOne({ _id: id })
+            .then((deletedBranch) => res.send(deletedBranch))
             .catch(next)
     }
 };
