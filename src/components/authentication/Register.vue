@@ -1,5 +1,9 @@
 <template>
-	<AppAuthenticationForm title="Register" :submitHandler="submitRegister">
+	<AppAuthenticationForm
+		title="Register"
+		:submitHandler="submitRegister"
+		:allFieldsAreValid="fieldsAreValid"
+	>
 		<v-form>
 			<v-text-field
 				label="Eamil"
@@ -39,9 +43,11 @@
 				type="password"
 				color="#232323"
 				v-model="confirmPassword"
-				@blur="$v.confirmPassword.$touch"
+				@input="$v.confirmPassword.$touch"
 				:error-messages="confirmPasswordErrors"
 			/>
+
+			<v-alert v-if="errorMessage" icon="far fa-user" color="red" text outlined>{{errorMessage}}</v-alert>
 		</v-form>
 	</AppAuthenticationForm>
 </template>
@@ -50,7 +56,6 @@
 import AppAuthenticationForm from "./AuthenticationForm";
 import { validationMixin } from "vuelidate";
 import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
-import firebase from "firebase";
 
 export default {
 	components: {
@@ -65,7 +70,8 @@ export default {
 			email: "",
 			username: "",
 			password: "",
-			confirmPassword: ""
+			confirmPassword: "",
+			errorMessage: ""
 		};
 	},
 	validations: {
@@ -75,7 +81,7 @@ export default {
 		},
 		username: {
 			required,
-			minLength: minLength(5)
+			minLength: minLength(4)
 		},
 		password: {
 			required,
@@ -86,6 +92,15 @@ export default {
 		}
 	},
 	computed: {
+		fieldsAreValid() {
+			return (
+				!this.$v.$anyError &&
+				!!this.email &&
+				!!this.username &&
+				!!this.password &&
+				!!this.confirmPassword
+			);
+		},
 		emailErrors() {
 			const errors = [];
 			if (!this.$v.email.$dirty) return errors;
@@ -98,7 +113,7 @@ export default {
 			if (!this.$v.username.$dirty) return errors;
 			!this.$v.username.required && errors.push("Username is required");
 			!this.$v.username.minLength &&
-				errors.push("The minimal length must be 5 symbols");
+				errors.push("The minimal length must be 4 symbols");
 			return errors;
 		},
 		passwordErrors() {
@@ -119,20 +134,18 @@ export default {
 	},
 	methods: {
 		submitRegister() {
-			firebase
-				.auth()
-				.createUserWithEmailAndPassword(this.email, this.password)
-				.then(registeredUser => {
-					if (registeredUser) {
-						firebase.firestore().collection("users").add({
-							uid: registeredUser.user.uid,
-							username: this.username,
-						});
-					}
-					console.log(registeredUser);
+			this.$store
+				.dispatch("user/register", {
+					email: this.email,
+					username: this.username,
+					password: this.password
 				})
-				.catch(function(error) {
-					console.log(error);
+				.then(res => {
+					console.log(res);
+					this.$router.push({ name: "ProductList" });
+				})
+				.catch(err => {
+					this.errorMessage = err.response.data;
 				});
 		}
 	}

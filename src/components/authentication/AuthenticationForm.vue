@@ -12,7 +12,10 @@
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer />
-						<v-btn color="#22AA94" class="white--text"
+						<v-btn 
+							color="#22AA94" 
+							class="white--text"
+							:disabled=!allFieldsAreValid
 							@click="submit"
 						>{{title}}</v-btn>
 					</v-card-actions>
@@ -31,6 +34,10 @@ export default {
 		},
 		submitHandler: {
 			type: Function,
+			required: true
+		},
+		allFieldsAreValid: {
+			type: Boolean,
 			required: true
 		}
 	},

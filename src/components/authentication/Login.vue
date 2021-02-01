@@ -1,5 +1,5 @@
 <template>
-	<AppAuthenticationForm title="Login" :submitHandler="submitLogin">
+	<AppAuthenticationForm title="Login" :submitHandler="submitLogin" :allFieldsAreValid="true">
 		<v-form>
 			<v-text-field label="Email" name="email" type="text" color="#232323" v-model="email" />
 
@@ -9,16 +9,15 @@
 				name="password"
 				type="password"
 				color="#232323"
-				v-model="passdword"
+				v-model="password"
 			/>
+			<v-alert v-if="errorMessage" icon="far fa-user" color="red" text outlined>{{errorMessage}}</v-alert>
 		</v-form>
 	</AppAuthenticationForm>
 </template>
 
 <script>
 import AppAuthenticationForm from "./AuthenticationForm";
-
-import firebase from "@/firebase.js";
 
 export default {
 	components: {
@@ -27,20 +26,22 @@ export default {
 	data: () => {
 		return {
 			email: "",
-			password: ""
+			password: "",
+			errorMessage: ""
 		};
 	},
 	methods: {
 		submitLogin() {
-			firebase.auth
-				.signInWithEmailAndPassword(this.email, this.password)
-				.then(user => {
-					this.$store.commit("setCurrentUser", user);
-					this.$store.dispatch("fetchUserProfile");
-					this.$router.push("/dashboard");
+			this.$store
+				.dispatch("user/login", {
+					email: this.email,
+					password: this.password
+				})
+				.then(() => {
+					this.$router.push({ name: "ProductList" });
 				})
 				.catch(err => {
-					console.log(err);
+					this.errorMessage = err.response.data;
 				});
 		}
 	},
